@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    tts-helper.exe — separate GPL-3.0 program (see LICENSE / README.md).
+    Runs Piper/VITS voices through sherpa-onnx (which statically contains eSpeak NG, GPL-3.0) and talks to the
+    calling app only over stdin/stdout pipes. Apps must NOT reference this project or sherpa-onnx; they start the exe.
+
+    Build modes (chosen by the caller, see TtsHelper.targets):
+      TtsHelperAot=true   → NativeAOT, self-contained, no .NET runtime needed (used for MSIX / release publish)
+      otherwise           → framework-dependent (dev builds and tests; needs the .NET 10 runtime installed)
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>tts-helper</AssemblyName>
+    <RootNamespace>Mso.TtsHelper</RootNamespace>
+    <PlatformTarget>x64</PlatformTarget>
+    <Version>1.0.0</Version>
+    <Product>tts-helper</Product>
+    <Description>Text-to-speech helper process (Piper voices via sherpa-onnx). GPL-3.0.</Description>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <UseSystemResourceKeys>true</UseSystemResourceKeys>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TtsHelperAot)' == 'true'">
+    <PublishAot>true</PublishAot>
+    <OptimizationPreference>Size</OptimizationPreference>
+    <SelfContained>true</SelfContained>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="org.k2fsa.sherpa.onnx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="LICENSE" Link="LICENSE-GPL-3.0.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="SOURCE.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="README.md" Link="README-tts-helper.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Remove="TtsHelper.targets" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,13 @@
+tts-helper.exe — text-to-speech helper program
+
+This folder contains a separate program, tts-helper.exe, licensed under the
+GNU General Public License version 3 (see LICENSE-GPL-3.0.txt). It includes
+eSpeak NG (GPL-3.0, https://github.com/espeak-ng/espeak-ng) inside
+sherpa-onnx-c-api.dll, sherpa-onnx (Apache-2.0, https://github.com/k2-fsa/sherpa-onnx)
+and ONNX Runtime (MIT, https://github.com/microsoft/onnxruntime).
+
+The main application communicates with this program only through standard
+input/output pipes; it does not link to it.
+
+Complete corresponding source code of tts-helper.exe:
+  https://github.com/dat-j/tts-helper
